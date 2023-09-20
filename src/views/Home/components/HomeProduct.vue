@@ -10,8 +10,8 @@
           </strong>
         </RouterLink>
         <ul class="goods-list">
-          <li v-for="good in cate.goods" :key="good.id">
-           <GoodsItem :goods = "good"/>
+          <li v-for="goods in cate.goods" :key="goods.id">
+            <GoodsItem :goods="goods" />
           </li>
         </ul>
       </div>
@@ -21,22 +21,19 @@
 
 <script setup>
 import HomePanel from './HomePanel.vue'
-import {getGoodsAPI} from '@/apis/home'
+import { getGoodsAPI } from '@/apis/home'
 import { onMounted, ref } from 'vue'
-import {GoodsItem} from './GoodsItem.vue'
+import GoodsItem from './GoodsItem.vue'
 
 const goodsProduct = ref([])
-const getGoods = async()=>{
+const getGoods = async () => {
   const res = await getGoodsAPI()
   goodsProduct.value = res.result
 }
-onMounted(()=>
-  getGoods()
-)
-
+onMounted(() => getGoods())
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .home-product {
   background: #fff;
   margin-top: 20px;
@@ -122,7 +119,6 @@ onMounted(()=>
         }
       }
     }
-
   }
 }
 </style>
