@@ -4,6 +4,7 @@ import Layout from '@/views/Layout/index.vue'
 import Home from '@/views/Home/index.vue'
 import Category from '@/views/Category/index.vue'
 import SubCategory from '@/views/SubCategory/index.vue'
+import Detail from '@/views/Detail/index.vue'
 
 //createRouter: 创建router实例对象
 //createWebHistory: 创建history模式路由
@@ -12,29 +13,39 @@ const router = createRouter({
   //path和component对应关系的位置
   routes: [
     {
-      path:'/',
+      path: '/',
       component: Layout,
-      children:[
+      children: [
         {
           // 默认二级路由
-          path:'',
-          component:Home
+          path: '',
+          component: Home
         },
         {
-          path:'category/:id',
-          component:Category
+          path: 'category/:id',
+          component: Category
         },
         {
-          path:'category/sub/:id',
-          component:SubCategory
+          path: 'category/sub/:id',
+          component: SubCategory
+        },
+        {
+          path: 'detail/:id',
+          component: Detail
         }
       ]
     },
     {
-      path:'/login',
+      path: '/login',
       component: Login
     }
-  ]
+  ],
+  //路由行为定制
+  scrollBehavior() {
+    return {
+      top: 0
+    }
+  }
 })
 
 export default router
