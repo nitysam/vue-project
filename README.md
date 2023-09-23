@@ -19,3 +19,5 @@ npm run dev
  - 实现：在设置state的时候将数据同步给localStorage，在获取state数据时从locaStorage中取出,使用了piniaPluginPersistedstate插件实现.
 ### 登录和非登录模板适配
  - 使用token适配多模板显示，根据是否有token来判断
+  
+### token失效问题处理
