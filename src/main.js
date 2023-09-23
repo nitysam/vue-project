@@ -8,13 +8,17 @@ import '@/styles/common.scss'
 
 //引入懒加载指令插件并且注册
 import { lazyPlugin } from './directives'
-import { componentPlugin } from './components'
 
 //引入全局组件插件
+import { componentPlugin } from './components'
 
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const app = createApp(App)
+const pinia = createPinia()
+app.use(pinia)
 
-app.use(createPinia())
+//注册持久化插件
+pinia.use(piniaPluginPersistedstate)
 app.use(router)
 app.use(lazyPlugin)
 app.use(componentPlugin)

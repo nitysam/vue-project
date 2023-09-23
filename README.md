@@ -16,6 +16,6 @@ npm run dev
 ## 用户登录
 ### 持久化用户数据
  - Pinia的存储是基于内存的，刷新就丢失，为了保持登录状态就要做到刷新不丢失，使用localStorage进行数据持久化
- - 实现：在设置state的时候将数据同步给localStorage，在获取state数据时从locaStorage中取出
+ - 实现：在设置state的时候将数据同步给localStorage，在获取state数据时从locaStorage中取出,使用了piniaPluginPersistedstate插件实现.
 ### 登录和非登录模板适配
  - 使用token适配多模板显示，根据是否有token来判断

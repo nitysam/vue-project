@@ -4,7 +4,9 @@
       <ul>
         <template v-if="userStore.userInfo.token">
           <li>
-            <a href="javascript:;"><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a>
+            <a href="javascript:;"
+              ><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a
+            >
           </li>
           <li>
             <el-popconfirm
@@ -28,7 +30,7 @@
   </nav>
 </template>
 <script setup>
-import {useUserStore} from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 </script>
 <style lang="scss" scoped>
