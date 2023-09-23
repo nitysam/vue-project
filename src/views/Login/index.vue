@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div>
     <header class="login-header">
@@ -21,17 +19,26 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px" status-icon>
-              <el-form-item label="账户">
-                <el-input />
+            <el-form
+              :model="form"
+              :rules="rules"
+              label-position="right"
+              label-width="60px"
+              status-icon
+              ref="formRef"
+            >
+              <el-form-item prop="account" label="账户">
+                <el-input v-model="form.account" />
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input />
+              <el-form-item prop="password" label="密码">
+                <el-input v-model="form.password" />
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox size="large"> 我已同意隐私条款和服务条款 </el-checkbox>
+              <el-form-item prop="agree" label-width="22px">
+                <el-checkbox size="large" v-model="form.agree">
+                  我已同意隐私条款和服务条款
+                </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
             </el-form>
           </div>
         </div>
@@ -54,6 +61,70 @@
     </footer>
   </div>
 </template>
+
+<script setup>
+//表单校验
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import { useRouter } from 'vue-router'
+
+import {useUserStore} from '@/stores/user'
+const userStore = useUserStore()
+
+const form = ref({
+  account: 'heima282',
+  password: 'hm#qd@23!',
+  agree: false
+})
+
+const rules = {
+  account: [
+    { required: true, message: '用户名不能为空', trigger: 'blur' }
+    // {
+    //   validator: (rule, value, callback) => {
+    //     rule = /^[0-9a-zA-Z]*$/
+    //     if (value.trim() === '' && !value.match(rule)) {
+    //       callback(new Error('用户名为字母或数字的组合'))
+    //     }
+    //   }
+    // }
+  ],
+  password: [
+    { required: true, message: '密码不能为空', trigger: 'blur' },
+    { min: 6, max: 14, message: '密码长度为6-14', trigger: 'blur' }
+  ],
+  agree: [
+    {
+      validator: (rule, value, callback) => {
+        // console.log(value)
+        if (value) {
+          callback()
+        } else {
+          callback(new Error('请勾选协议'))
+        }
+      }
+    }
+  ]
+}
+
+const formRef = ref(null)
+const router = useRouter()
+const doLogin = () => {
+  const { account, password } = form.value
+  formRef.value.validate(async (valid) => {
+    console.log(valid)
+    console.log('@@@')
+    if (valid) {
+      await userStore.getUserInfo({ account, password })
+      //提示用户
+      ElMessage({ type: 'success', message: '登录成功' })
+      //跳转首页
+      router.replace({ path: '/' })
+    }
+  })
+}
+</script>
 
 <style scoped lang="scss">
 .login-header {
