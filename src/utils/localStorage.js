@@ -5,7 +5,7 @@ export const getToken = ()=>{
     return JSON.parse(localStorage.getItem(TOKEN_STR))
 }
 /*
-*保持token到本地
+*保存token到本地
 *@param {object} tokenObj
 */
 export const setToken = (tokenObj) =>{
