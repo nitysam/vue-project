@@ -1,6 +1,6 @@
 //封装购物车模块
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 export const useCartStore = defineStore(
   'cart',
   () => {
@@ -23,8 +23,13 @@ export const useCartStore = defineStore(
     const delCart = (skuId) => {
       cartList.value = cartList.value.filter((item) => skuId !== item.skuId)
     }
+
+    const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
+    const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
     return {
       cartList,
+      allCount,
+      allPrice,
       addCart,
       delCart
     }
