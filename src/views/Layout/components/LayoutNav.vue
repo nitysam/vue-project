@@ -38,7 +38,7 @@ const router = useRouter()
 const confirm = ()=>{
   //退出登录业务逻辑实现
   userStore.clearUserInfo()
-  router.push('./login')
+  router.replace('./login')
 }
 </script>
 <style lang="scss" scoped>

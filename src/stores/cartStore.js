@@ -11,9 +11,10 @@ export const useCartStore = defineStore(
     const cartList = ref([])
 
     //获取最新购物车列表action
-    const updateNewList = () => {
-      const res = findNewCartListAPI()
+    const updateNewList = async () => {
+      const res = await findNewCartListAPI()
       cartList.value = res.result
+      // console.log('######', cartList.value)
     }
 
     const addCart = async (goods) => {
@@ -49,10 +50,9 @@ export const useCartStore = defineStore(
     }
 
     //清除购物车
-    const clearCart = ()=>{
+    const clearCart = () => {
       cartList.value = []
     }
-
 
     //单选功能
     const singleCheck = (skuId, selected) => {
@@ -90,7 +90,8 @@ export const useCartStore = defineStore(
       delCart,
       singleCheck,
       allCheck,
-      clearCart
+      clearCart,
+      updateNewList
     }
   },
   {
