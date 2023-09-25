@@ -1,15 +1,15 @@
 <script setup>
-import { ref,onMounted} from "vue"
+import { ref, onMounted } from 'vue'
 import { getUserOrder } from '@/apis/order'
 // tab列表
 const tabTypes = [
-  { name: "all", label: "全部订单" },
-  { name: "unpay", label: "待付款" },
-  { name: "deliver", label: "待发货" },
-  { name: "receive", label: "待收货" },
-  { name: "comment", label: "待评价" },
-  { name: "complete", label: "已完成" },
-  { name: "cancel", label: "已取消" }
+  { name: 'all', label: '全部订单' },
+  { name: 'unpay', label: '待付款' },
+  { name: 'deliver', label: '待发货' },
+  { name: 'receive', label: '待收货' },
+  { name: 'comment', label: '待评价' },
+  { name: 'complete', label: '已完成' },
+  { name: 'cancel', label: '已取消' }
 ]
 // 订单列表
 const orderList = ref([])
@@ -27,16 +27,28 @@ const getOrderList = async () => {
 onMounted(() => getOrderList())
 
 //tab切换
-const tabChange = (type)=>{
-    params.value.orderState = type
-    params.value.page = 1
-    getOrderList()
+const tabChange = (type) => {
+  params.value.orderState = type
+  params.value.page = 1
+
+  getOrderList()
 }
 //页数切换
-const pageChange = (page)=>{
-    console.log(page);
-    params.value.page = page
-    getOrderList()
+const pageChange = (page) => {
+  console.log(page)
+  params.value.page = page
+  getOrderList()
+}
+const fomartPayState = (payState) => {
+  const stateMap = {
+    1: '待付款',
+    2: '待发货',
+    3: '待收货',
+    4: '待评价',
+    5: '已完成',
+    6: '已取消'
+  }
+  return stateMap[payState]
 }
 </script>
 
@@ -59,7 +71,7 @@ const pageChange = (page)=>{
               <!-- 未付款，倒计时时间还有 -->
               <span class="down-time" v-if="order.orderState === 1">
                 <i class="iconfont icon-down-time"></i>
-                <b>付款截止: {{order.countdown}}</b>
+                <b>付款截止: {{ order.countdown }}</b>
               </span>
             </div>
             <div class="body">
@@ -83,7 +95,7 @@ const pageChange = (page)=>{
                 </ul>
               </div>
               <div class="column state">
-                <p>{{ order.orderState }}</p>
+                <p>{{ fomartPayState(order.orderState) }}</p>
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
                 </p>
@@ -100,8 +112,7 @@ const pageChange = (page)=>{
                 <p>在线支付</p>
               </div>
               <div class="column action">
-                <el-button  v-if="order.orderState === 1" type="primary"
-                  size="small">
+                <el-button v-if="order.orderState === 1" type="primary" size="small">
                   立即付款
                 </el-button>
                 <el-button v-if="order.orderState === 3" type="primary" size="small">
@@ -120,14 +131,18 @@ const pageChange = (page)=>{
           </div>
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination :total="total" @current-change="pageChange" :page-size="params.pageSize" background layout="prev, pager, next" />
+            <el-pagination
+              :total="total"
+              @current-change="pageChange"
+              :page-size="params.pageSize"
+              background
+              layout="prev, pager, next"
+            />
           </div>
         </div>
       </div>
-
     </el-tabs>
   </div>
-
 </template>
 
 <style scoped lang="scss">
@@ -197,7 +212,7 @@ const pageChange = (page)=>{
       text-align: center;
       padding: 20px;
 
-      >p {
+      > p {
         padding-top: 10px;
       }
 
