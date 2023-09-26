@@ -1,8 +1,3 @@
-
-import { flattedChildren } from 'element-plus/es/utils';
-
-import { id } from 'element-plus/es/locale';
-
 <template>
   <div class="home-category">
     <ul class="menu">

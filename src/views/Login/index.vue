@@ -73,25 +73,33 @@ import {useUserStore} from '@/stores/userStore'
 const userStore = useUserStore()
 
 const form = ref({
-  account: 'heima282',
-  password: 'hm#qd@23!',
+  account: '',
+  password: '',
   agree: false
 })
-
+const validateAccount = (rule,value,callback)=>{
+  const reg = /^[0-9a-zA-Z]\S/
+  if(value.trim() === ''){
+    callback(new Error('用户名不能为空'))
+  }else if(!value.match(reg)){
+    callback(new Error('用户名由字母和数字组成，不能包含空格'))
+  }else{
+    callback()
+  }
+}
+const validatePassword = (rule,value,callback)=>{
+  if(value.trim() === ''){
+    callback(new Error('密码不能为空'))
+  }else {
+    callback()
+  }
+}
 const rules = {
   account: [
-    { required: true, message: '用户名不能为空', trigger: 'blur' }
-    // {
-    //   validator: (rule, value, callback) => {
-    //     rule = /^[0-9a-zA-Z]*$/
-    //     if (value.trim() === '' && !value.match(rule)) {
-    //       callback(new Error('用户名为字母或数字的组合'))
-    //     }
-    //   }
-    // }
+    { required: true, validator:validateAccount, trigger: 'blur' }
   ],
   password: [
-    { required: true, message: '密码不能为空', trigger: 'blur' },
+    { required: true, validator:validatePassword, trigger: 'blur' },
     { min: 6, max: 14, message: '密码长度为6-14', trigger: 'blur' }
   ],
   agree: [
